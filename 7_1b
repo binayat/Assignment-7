@@ -13,14 +13,14 @@ l = 0.15      # lengh of the pendulum
 theta0 = 89*pi/180
 
 def f(r,t):
-    theta=r[0]
-    omega=r[1]
-    ftheta=omega
-    fomega=-(g/l)*sin(theta)
+    theta = r[0]
+    omega = r[1]
+    ftheta = omega
+    fomega =- (g/l)*sin(theta)
     return array([ftheta,fomega],float)
 
 a = 0.0
-b =10.0
+b = 10.0
 N = 1000
 h = (b-a)/N
 
