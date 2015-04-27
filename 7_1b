@@ -1,0 +1,47 @@
+#program to solve 2 first order equations of a pendulum with a 15 cm arm
+#using Leapfrog method, with theta=89 degree.
+
+
+from math import*
+from numpy import* 
+from pylab import*
+
+g = 9.81     #acceleration due to gravity
+l = 0.15      # lengh of the pendulum
+
+
+theta0 = 89*pi/180
+
+def f(r,t):
+    theta=r[0]
+    omega=r[1]
+    ftheta=omega
+    fomega=-(g/l)*sin(theta)
+    return array([ftheta,fomega],float)
+
+a = 0.0
+b =10.0
+N = 1000
+h = (b-a)/N
+
+tpoints = arange(a,b,h)
+xpoints = []
+ypoints = []
+r_1_half = array([],float)
+r_3_half = array([],float)
+
+r=array([theta0, 0.0],float)    #theta0 = 89*pi/180
+for t in tpoints:
+    xpoints.append(r[0])
+    ypoints.append(r[1])
+    r_half = r+0.5*h*f(r,t)
+    r += h*f(r_half,t+0.5*h)
+    r_3half = r_half+h*f(r,t+h)
+
+plot(tpoints,xpoints,'k.')
+#plot(tpoints,ypoints)
+xticks(fontsize=20)
+yticks(fontsize=20)
+xlabel("t (sec)",fontsize=28)
+ylabel("theta (radian)",fontsize=28)
+show()
