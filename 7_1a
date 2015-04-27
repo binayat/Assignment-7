@@ -1,0 +1,46 @@
+# This program solves the equation of a pendulum with a 10 cm arm
+#using fourth-order Runge-Kutta method,with theta=178 degree.
+
+from math import*
+from numpy import* 
+from pylab import*
+
+
+g = 9.81              #acceleration due to gravity
+l = 0.1               # lengh of the pendulum 10 cm
+theta0 = 178*pi/180   # theta in radians
+
+a = 0.0
+b = 10.0
+N = 100        
+h = (b-a)/N     
+   
+
+def f(r,t):
+    theta = r[0]
+    omega = r[1]
+    ftheta = omega
+    fomega = -(g/l)*sin(theta)
+    return array([ftheta,fomega],float)
+
+tpoints = arange(a,b,h)
+thetapoints = []
+r = array([theta0, 0.0],float)
+
+
+for t in tpoints:
+    thetapoints.append(r[0])
+    k1 = h*f(r,t)
+    k2 = h*f(r+0.5*k1,t+0.5*h)
+    k3 = h*f(r+0.5*k2,t+0.5*h)
+    k4 = h*f(r+k3,t+h)
+    r += (k1+2*k2+2*k3+k4)/6
+
+# Plot the results
+plot(tpoints,thetapoints, 'k--')
+xlabel("t")
+xticks(fontsize=20)
+yticks(fontsize=20)
+xlabel("t (sec)",fontsize=28)
+ylabel("theta (radian)",fontsize=28)
+show()
